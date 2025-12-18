@@ -7,7 +7,7 @@ export default function Landing() {
   const [submitted, setSubmitted] = useState(false);
   const [chatOpen, setChatOpen] = useState(false);
   const [messages, setMessages] = useState<Array<{ role: 'user' | 'assistant'; content: string }>>([
-    { role: 'assistant', content: 'Hi! I\'m your AI writing assistant. I can help you brainstorm novel ideas, suggest plot twists, develop characters, or answer questions about Neuro Novels. What would you like to explore?' }
+    { role: 'assistant', content: 'Hi! I&apos;m your AI writing assistant. I can help you brainstorm novel ideas, suggest plot twists, develop characters, or answer questions about Neuro Novels. What would you like to explore?' }
   ]);
   const [inputMessage, setInputMessage] = useState('');
   const [isTyping, setIsTyping] = useState(false);
@@ -30,12 +30,12 @@ export default function Landing() {
     // Simulate AI response
     setTimeout(() => {
       const responses = [
-        'That\'s a fascinating idea! For a sci-fi thriller, consider adding a twist where the AI protagonist discovers it\'s actually a backup consciousness of a human scientist. This creates moral complexity and emotional depth.',
-        'Great question! For character development, try the "wound and want" technique: give your character a past trauma (wound) and a deep desire (want) that conflicts with healing that wound. This creates natural tension.',
-        'I love that genre mix! Combining romance with mystery works beautifully. Consider making the love interest a suspect initially—it adds delicious tension and keeps readers guessing.',
+        'That&apos;s a fascinating idea! For a sci-fi thriller, consider adding a twist where the AI protagonist discovers it&apos;s actually a backup consciousness of a human scientist. This creates moral complexity and emotional depth.',
+        'Great question! For character development, try the &quot;wound and want&quot; technique: give your character a past trauma (wound) and a deep desire (want) that conflicts with healing that wound. This creates natural tension.',
+        'I love that genre mix! Combining romance with mystery works beautifully. Consider making the love interest a suspect initially&mdash;it adds delicious tension and keeps readers guessing.',
         'Excellent choice! Fantasy world-building tip: Start with one unique magic rule and explore its consequences deeply rather than creating dozens of shallow systems. Readers love consistency and depth.',
-        'For plot pacing, try the "yes, but / no, and" technique: When your character succeeds, add a complication (yes, but...). When they fail, make it worse (no, and...). This keeps momentum building.',
-        'That\'s a compelling premise! To make it even stronger, ask: What does your protagonist want? What\'s stopping them? What happens if they fail? These three questions form the backbone of any great story.'
+        'For plot pacing, try the &quot;yes, but / no, and&quot; technique: When your character succeeds, add a complication (yes, but...). When they fail, make it worse (no, and...). This keeps momentum building.',
+        'That&apos;s a compelling premise! To make it even stronger, ask: What does your protagonist want? What&apos;s stopping them? What happens if they fail? These three questions form the backbone of any great story.'
       ];
       const randomResponse = responses[Math.floor(Math.random() * responses.length)];
       setMessages(prev => [...prev, { role: 'assistant', content: randomResponse }]);
@@ -73,7 +73,7 @@ export default function Landing() {
           </h1>
           
           <p className="text-xl md:text-2xl text-purple-100 mb-12 max-w-3xl mx-auto leading-relaxed">
-            Personalized, immersive storytelling powered by advanced AI—just tell us your idea, and we'll bring it to life.
+            Personalized, immersive storytelling powered by advanced AI&mdash;just tell us your idea, and we&apos;ll bring it to life.
           </p>
 
           {/* CTA Form */}
@@ -95,7 +95,7 @@ export default function Landing() {
               </button>
             </div>
             {submitted && (
-              <p className="mt-4 text-green-300 animate-fade-in">Thanks! We'll be in touch soon.</p>
+              <p className="mt-4 text-green-300 animate-fade-in">Thanks! We&apos;ll be in touch soon.</p>
             )}
           </form>
 
@@ -224,7 +224,7 @@ export default function Landing() {
                   </svg>
                 ))}
               </div>
-              <p className="text-purple-200 leading-relaxed">"Neuro Novels helped me finish my first romance novel in just 3 days! The AI understood exactly what I wanted and created characters I fell in love with."</p>
+              <p className="text-purple-200 leading-relaxed">&quot;Neuro Novels helped me finish my first romance novel in just 3 days! The AI understood exactly what I wanted and created characters I fell in love with.&quot;</p>
             </div>
 
             <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10">
@@ -242,7 +242,7 @@ export default function Landing() {
                   </svg>
                 ))}
               </div>
-              <p className="text-purple-200 leading-relaxed">"The world-building capabilities are incredible. My sci-fi epic has depth and complexity I couldn't have imagined on my own. Absolutely mind-blowing!"</p>
+              <p className="text-purple-200 leading-relaxed">&quot;The world-building capabilities are incredible. My sci-fi epic has depth and complexity I couldn&apos;t have imagined on my own. Absolutely mind-blowing!&quot;</p>
             </div>
 
             <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10">
@@ -260,7 +260,7 @@ export default function Landing() {
                   </svg>
                 ))}
               </div>
-              <p className="text-purple-200 leading-relaxed">"The plot twists are genius! Neuro Novels helped me craft a mystery thriller that kept even me guessing. My readers are obsessed!"</p>
+              <p className="text-purple-200 leading-relaxed">&quot;The plot twists are genius! Neuro Novels helped me craft a mystery thriller that kept even me guessing. My readers are obsessed!&quot;</p>
             </div>
           </div>
         </div>
@@ -474,6 +474,8 @@ export default function Landing() {
     </div>
   );
 }
+
+
 
 
 
