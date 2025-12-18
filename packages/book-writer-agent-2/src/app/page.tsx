@@ -5,11 +5,42 @@ import { useState } from 'react';
 export default function Landing() {
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const [chatOpen, setChatOpen] = useState(false);
+  const [messages, setMessages] = useState<Array<{ role: 'user' | 'assistant'; content: string }>>([
+    { role: 'assistant', content: 'Hi! I\'m your AI writing assistant. I can help you brainstorm novel ideas, suggest plot twists, develop characters, or answer questions about Neuro Novels. What would you like to explore?' }
+  ]);
+  const [inputMessage, setInputMessage] = useState('');
+  const [isTyping, setIsTyping] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitted(true);
     setTimeout(() => setSubmitted(false), 3000);
+  };
+
+  const handleSendMessage = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!inputMessage.trim()) return;
+
+    const userMessage = inputMessage.trim();
+    setInputMessage('');
+    setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
+    setIsTyping(true);
+
+    // Simulate AI response
+    setTimeout(() => {
+      const responses = [
+        'That\'s a fascinating idea! For a sci-fi thriller, consider adding a twist where the AI protagonist discovers it\'s actually a backup consciousness of a human scientist. This creates moral complexity and emotional depth.',
+        'Great question! For character development, try the "wound and want" technique: give your character a past trauma (wound) and a deep desire (want) that conflicts with healing that wound. This creates natural tension.',
+        'I love that genre mix! Combining romance with mystery works beautifully. Consider making the love interest a suspect initially—it adds delicious tension and keeps readers guessing.',
+        'Excellent choice! Fantasy world-building tip: Start with one unique magic rule and explore its consequences deeply rather than creating dozens of shallow systems. Readers love consistency and depth.',
+        'For plot pacing, try the "yes, but / no, and" technique: When your character succeeds, add a complication (yes, but...). When they fail, make it worse (no, and...). This keeps momentum building.',
+        'That\'s a compelling premise! To make it even stronger, ask: What does your protagonist want? What\'s stopping them? What happens if they fail? These three questions form the backbone of any great story.'
+      ];
+      const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+      setMessages(prev => [...prev, { role: 'assistant', content: randomResponse }]);
+      setIsTyping(false);
+    }, 1500);
   };
 
   return (
@@ -353,7 +384,96 @@ export default function Landing() {
           </div>
         </div>
       </footer>
+
+      {/* AI Chat Widget */}
+      <div className="fixed bottom-6 right-6 z-50">
+        {chatOpen ? (
+          <div className="bg-gradient-to-br from-indigo-950 to-purple-900 rounded-2xl shadow-2xl border border-purple-500/30 w-96 h-[500px] flex flex-col overflow-hidden">
+            {/* Chat Header */}
+            <div className="bg-gradient-to-r from-purple-600 to-fuchsia-600 p-4 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
+                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                  </svg>
+                </div>
+                <div>
+                  <div className="font-semibold text-white">AI Writing Assistant</div>
+                  <div className="text-xs text-purple-100">Online</div>
+                </div>
+              </div>
+              <button
+                onClick={() => setChatOpen(false)}
+                className="text-white hover:bg-white/20 rounded-lg p-2 transition"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            {/* Chat Messages */}
+            <div className="flex-1 overflow-y-auto p-4 space-y-4">
+              {messages.map((msg, idx) => (
+                <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                  <div className={`max-w-[80%] rounded-2xl px-4 py-3 ${
+                    msg.role === 'user' 
+                      ? 'bg-gradient-to-r from-purple-500 to-fuchsia-500 text-white' 
+                      : 'bg-white/10 text-purple-100 border border-white/20'
+                  }`}>
+                    <p className="text-sm leading-relaxed">{msg.content}</p>
+                  </div>
+                </div>
+              ))}
+              {isTyping && (
+                <div className="flex justify-start">
+                  <div className="bg-white/10 border border-white/20 rounded-2xl px-4 py-3">
+                    <div className="flex gap-1">
+                      <div className="w-2 h-2 bg-purple-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+                      <div className="w-2 h-2 bg-purple-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+                      <div className="w-2 h-2 bg-purple-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Chat Input */}
+            <form onSubmit={handleSendMessage} className="p-4 border-t border-white/10">
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  value={inputMessage}
+                  onChange={(e) => setInputMessage(e.target.value)}
+                  placeholder="Ask about story ideas..."
+                  className="flex-1 px-4 py-3 rounded-full bg-white/10 border border-white/20 text-white placeholder-purple-300 focus:outline-none focus:ring-2 focus:ring-purple-400 text-sm"
+                />
+                <button
+                  type="submit"
+                  disabled={!inputMessage.trim() || isTyping}
+                  className="px-4 py-3 bg-gradient-to-r from-purple-500 to-fuchsia-500 rounded-full hover:from-purple-600 hover:to-fuchsia-600 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                  </svg>
+                </button>
+              </div>
+            </form>
+          </div>
+        ) : (
+          <button
+            onClick={() => setChatOpen(true)}
+            className="bg-gradient-to-r from-purple-600 to-fuchsia-600 text-white rounded-full p-4 shadow-2xl hover:scale-110 transition transform hover:shadow-purple-500/50"
+          >
+            <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+            </svg>
+          </button>
+        )}
+      </div>
     </div>
   );
 }
+
+
 
